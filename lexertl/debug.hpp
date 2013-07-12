@@ -49,7 +49,7 @@ public:
         for (std::size_t dfa_ = 0, dfas_ = csm_.size (); dfa_ < dfas_; ++dfa_)
         {
             lexer_state (stream_);
-            stream_ << rules_.state (dfa_) << std::endl << std::endl;
+            stream_ << rules_.state (dfa_) << " (" << dfa_ << ")" << std::endl << std::endl;
 
             dump_ex (csm_._sm_deque[dfa_], stream_);
         }
