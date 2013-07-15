@@ -1,5 +1,6 @@
 // debug.hpp
 // Copyright (c) 2005-2012 Ben Hanson (http://www.benhanson.net/)
+// Copyright (c) 2013 Autodesk, Inc. All rights reserved.
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file licence_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,6 +17,12 @@
 
 namespace lexertl
 {
+// Forward declaration for the friendship declaration below.
+template<typename sm, typename char_type, typename id_type = std::size_t,
+    bool is_dfa = true>
+class basic_dot;
+
+
 template<typename sm, typename char_type, typename id_type = std::size_t,
     bool is_dfa = true>
 class basic_debug
@@ -71,6 +78,13 @@ protected:
     typedef typename dfa_state::string_token string_token;
     typedef std::basic_stringstream<char_type> stringstream;
 
+    // Allow basic_dot to reuse sm_to_csm()...
+    template<typename, typename, typename, bool>
+    friend class basic_dot;
+
+    // Should the conversion from state_machine to char_state_machine
+    // be moved to a central location from which both basic_debug and
+    // basic_dot would be able to invoke it ?
     static void sm_to_csm (const sm &sm_, char_state_machine &csm_)
     {
         const detail::basic_internals<id_type> &internals_ = sm_.data ();
