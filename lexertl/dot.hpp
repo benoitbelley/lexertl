@@ -160,7 +160,6 @@ protected:
         ostream &stream_)
     {
         const std::size_t states_ = dfa_._states.size ();
-        const id_type bol_index_ = dfa_._bol_index;
         typename dfa_state::id_type_string_token_map::const_iterator iter_;
         typename dfa_state::id_type_string_token_map::const_iterator end_;
 
