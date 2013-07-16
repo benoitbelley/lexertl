@@ -1,5 +1,5 @@
 // dot.hpp
-// Copyright (c) 2005-2012 Ben Hanson (http://www.benhanson.net/)
+// Copyright (c) 2005-2013 Ben Hanson (http://www.benhanson.net/)
 // Copyright (c) 2013 Autodesk, Inc. All rights reserved.
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -7,14 +7,10 @@
 #ifndef LEXERTL_DOT_HPP
 #define LEXERTL_DOT_HPP
 
-#include <map>
 #include <ostream>
 #include "rules.hpp"
-#include "size_t.hpp"
 #include "state_machine.hpp"
-#include "string_token.hpp"
-#include "debug.hpp"
-#include <vector>
+#include "sm_to_csm.hpp"
 
 namespace lexertl
 {
@@ -23,14 +19,15 @@ namespace lexertl
 //! DOT language (http://www.graphviz.org/doc/info/lang.html). The
 //! resulting directed graph can previewed by opening the ".dot" file
 //! into the GraphViz application (http://www.graphviz.org).
-template<typename sm, typename char_type, typename id_type, bool is_dfa>
+template<typename sm, typename char_type, typename id_type = std::size_t,
+    bool is_dfa = true>
 class basic_dot
 {
 public:
     typedef lexertl::basic_char_state_machine<char_type, id_type, is_dfa>
         char_state_machine;
-    typedef std::basic_ostream<char_type> ostream;
     typedef lexertl::basic_rules<char_type, id_type> rules;
+    typedef std::basic_ostream<char_type> ostream;
     typedef std::basic_string<char_type> string;
 
     //! Dumps a description of the finite state machine expressed in
@@ -39,7 +36,7 @@ public:
     {
         char_state_machine csm_;
 
-        basic_debug<sm, char_type, id_type, is_dfa>::sm_to_csm (sm_, csm_);
+        sm_to_csm (sm_, csm_);
         dump (csm_, rules_, stream_);
     }
 
